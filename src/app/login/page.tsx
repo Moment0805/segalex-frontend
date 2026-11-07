@@ -7,6 +7,7 @@ import { useMarketplace } from "@/context/MarketplaceContext";
 import { BrandLogo } from "@/components/common/BrandLogo";
 import { showToast } from "@/components/ui/Toast";
 import { Lock, Mail, ArrowRight, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,7 +41,12 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 py-12 bg-[#FAFAF7] text-stone-900">
-      <div className="w-full max-w-md space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: 16, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="w-full max-w-md space-y-6"
+      >
         {/* Brand Header */}
         <div className="text-center space-y-3">
           <div className="flex justify-center">
@@ -140,10 +146,16 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2.5 px-4 bg-[#008751] hover:bg-[#00563A] text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all disabled:opacity-50"
+              className="w-full py-2.5 px-4 bg-[#008751] hover:bg-[#00563A] text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all disabled:opacity-75 disabled:cursor-not-allowed active:scale-[0.98]"
             >
               {isLoading ? (
-                <span>Verifying Credentials...</span>
+                <>
+                  <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  <span>Verifying Credentials...</span>
+                </>
               ) : (
                 <>
                   <span>Sign In</span>
@@ -164,7 +176,7 @@ export default function LoginPage() {
                 setEmail("investor.diaspora@gmail.com");
                 setPassword("Lagos2024*Verified");
               }}
-              className="text-[11px] font-bold text-[#008751] hover:underline"
+              className="text-[11px] font-bold text-[#008751] hover:underline cursor-pointer"
             >
               Autofill Sample Investor Account
             </button>
@@ -186,7 +198,7 @@ export default function LoginPage() {
             </Link>
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMarketplace } from "@/context/MarketplaceContext";
 import { LAGOS_AREAS } from "@/data/areas";
+import { motion } from "framer-motion";
 import {
   Search,
   MapPin,
@@ -30,6 +31,7 @@ export function HeroSearch() {
   const [bedrooms, setBedrooms] = useState("");
   const [documentsCheckedOnly, setDocumentsCheckedOnly] = useState(false);
   const [showMoreFilters, setShowMoreFilters] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   const verifiedAgentsCount = agents.filter((a) => a.verificationStatus === "verified").length || 10;
   const ercaanCount = agents.filter((a) => a.isErcaanMember).length || 12;
@@ -37,6 +39,7 @@ export function HeroSearch() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSearching(true);
     const params = new URLSearchParams();
     if (purpose) params.set("purpose", purpose);
     if (area) params.set("area", area);
@@ -45,7 +48,9 @@ export function HeroSearch() {
     if (bedrooms) params.set("bedrooms", bedrooms);
     if (documentsCheckedOnly) params.set("documentsCheckedOnly", "true");
 
-    router.push(`/properties?${params.toString()}`);
+    setTimeout(() => {
+      router.push(`/properties?${params.toString()}`);
+    }, 200);
   };
 
   return (
@@ -53,7 +58,12 @@ export function HeroSearch() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-12">
           {/* Left Column (55% on desktop): Headline, Search Card, Trust Row */}
-          <div className="w-full lg:w-[55%] flex flex-col justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="w-full lg:w-[55%] flex flex-col justify-center"
+          >
             {/* Small label */}
             <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#008751] mb-3">
               <span className="w-1.5 h-1.5 rounded-full bg-[#008751]" />
@@ -231,10 +241,23 @@ export function HeroSearch() {
 
                   <button
                     type="submit"
-                    className="px-5 py-2.5 bg-[#008751] hover:bg-[#00563A] text-white font-medium rounded-lg text-xs tracking-wide flex items-center gap-1.5 transition-colors shadow-sm cursor-pointer"
+                    disabled={isSearching}
+                    className="px-5 py-2.5 bg-[#008751] hover:bg-[#00563A] text-white font-medium rounded-lg text-xs tracking-wide flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer active:scale-95 disabled:opacity-80"
                   >
-                    <Search className="w-3.5 h-3.5" />
-                    <span>Search</span>
+                    {isSearching ? (
+                      <>
+                        <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        <span>Searching...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Search className="w-3.5 h-3.5" />
+                        <span>Search</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </form>
@@ -251,10 +274,15 @@ export function HeroSearch() {
               <span className="text-ink font-semibold">{docCheckedCount}</span>
               <span>Documents Checked listings</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column (45% on desktop): Tall Rounded Photo + 2 Floating Overlapping Cards */}
-          <div className="w-full lg:w-[45%] relative">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            className="w-full lg:w-[45%] relative"
+          >
             <div className="relative aspect-[4/5] sm:aspect-[3/4] w-full rounded-2xl overflow-hidden border border-[#E9E8E1] shadow-md bg-stone-200">
               <Image
                 src="/images/listings/prop-1/photo-1.webp"
@@ -321,7 +349,7 @@ export function HeroSearch() {
                 </li>
               </ul>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

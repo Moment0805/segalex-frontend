@@ -13,6 +13,7 @@ import { TopAgents } from "@/components/marketplace/TopAgents";
 import { AdBannerCard } from "@/components/marketplace/AdBannerCard";
 import { SegalexStory } from "@/components/marketplace/SegalexStory";
 import { useMarketplace } from "@/context/MarketplaceContext";
+import { motion } from "framer-motion";
 
 export default function HomePage() {
   const { listings } = useMarketplace();
@@ -29,25 +30,66 @@ export default function HomePage() {
         <TrustStrip />
 
         {/* How Verification Works 3-Step Visual */}
-        <VerificationExplainer />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+        >
+          <VerificationExplainer />
+        </motion.div>
 
         {/* Featured Listings Carousel (Clearly Labelled "Featured") */}
-        <FeaturedCarousel listings={listings} />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+        >
+          <FeaturedCarousel listings={listings} />
+        </motion.div>
 
         {/* Popular Lagos Areas Showcase */}
-        <PopularAreas />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+        >
+          <PopularAreas />
+        </motion.div>
 
         {/* Mid-page Grid: Tip of the Day & Banner Slot */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-8"
+        >
           <TipCard />
           <AdBannerCard slot="home_mid" className="my-0 px-0" />
-        </div>
+        </motion.div>
 
         {/* Top Verified Agents Spotlight */}
-        <TopAgents />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+        >
+          <TopAgents />
+        </motion.div>
 
         {/* Segalex Corporate Story & Executive Teaser */}
-        <SegalexStory />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+        >
+          <SegalexStory />
+        </motion.div>
       </main>
 
       <Footer />

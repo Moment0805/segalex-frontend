@@ -7,6 +7,7 @@ import { useMarketplace } from "@/context/MarketplaceContext";
 import { VerificationBadge } from "@/components/ui/Badge";
 import { showToast } from "@/components/ui/Toast";
 import { formatNaira, formatRentPrice } from "@/lib/utils";
+import { motion } from "framer-motion";
 import {
   Heart,
   Bed,
@@ -60,10 +61,12 @@ export function PropertyCard({ listing, onHover, className = "" }: PropertyCardP
       : formatNaira(listing.price, false);
 
   return (
-    <div
+    <motion.div
+      whileHover={{ y: -3 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
       onMouseEnter={() => onHover?.(listing.id)}
       onMouseLeave={() => onHover?.(null)}
-      className={`group bg-white rounded-xl border border-stone-200 overflow-hidden shadow-card hover:shadow-elevated hover:-translate-y-0.5 transition-all duration-200 flex flex-col relative ${className}`}
+      className={`group bg-white rounded-xl border border-stone-200 overflow-hidden shadow-card hover:shadow-elevated transition-shadow duration-200 flex flex-col relative ${className}`}
     >
       {/* Photo Viewport: Strictly 4:3 Aspect Ratio */}
       <div className="relative aspect-[4/3] w-full bg-stone-100 overflow-hidden">
@@ -76,7 +79,7 @@ export function PropertyCard({ listing, onHover, className = "" }: PropertyCardP
               "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
             )
           }
-          className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500 ease-out"
           loading="eager"
         />
 
@@ -212,6 +215,6 @@ export function PropertyCard({ listing, onHover, className = "" }: PropertyCardP
           </div>
         )}
       </Link>
-    </div>
+    </motion.div>
   );
 }

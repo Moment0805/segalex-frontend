@@ -44,6 +44,7 @@ export default function AgentRegistrationWizard() {
   const [lasreraCertUploaded, setLasreraCertUploaded] = useState(true);
   const [idUploaded, setIdUploaded] = useState(true);
   const [cacUploaded, setCacUploaded] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toggleArea = (areaName: string) => {
     setSelectedAreas((prev) =>
@@ -55,22 +56,26 @@ export default function AgentRegistrationWizard() {
     if (step < 3) {
       setStep(step + 1);
     } else {
-      // Complete Registration
-      registerAgent({
-        name: name || "Tolu Ogunlesi",
-        agencyName: agencyName || "Crown Ridge Properties Ltd",
-        email: email || "tolu@crownridge.ng",
-        phone: phone || "+234 803 999 1234",
-        whatsapp: whatsapp || "2348039991234",
-        lasreraNumber,
-        isErcaanMember: hasErcaan,
-        ercaanRegNumber: ercaanNumber,
-        bio: bio || "Licensed real estate broker specializing in Lekki corridor investments.",
-        coverageAreas: selectedAreas,
-      });
+      setIsSubmitting(true);
+      setTimeout(() => {
+        // Complete Registration
+        registerAgent({
+          name: name || "Tolu Ogunlesi",
+          agencyName: agencyName || "Crown Ridge Properties Ltd",
+          email: email || "tolu@crownridge.ng",
+          phone: phone || "+234 803 999 1234",
+          whatsapp: whatsapp || "2348039991234",
+          lasreraNumber,
+          isErcaanMember: hasErcaan,
+          ercaanRegNumber: ercaanNumber,
+          bio: bio || "Licensed real estate broker specializing in Lekki corridor investments.",
+          coverageAreas: selectedAreas,
+        });
 
-      setIsPending(true);
-      showToast("Application Submitted", "Your credentials have been submitted to Admin queue.");
+        setIsSubmitting(false);
+        setIsPending(true);
+        showToast("Application Submitted", "Your credentials have been submitted to Admin queue.");
+      }, 500);
     }
   };
 
@@ -435,11 +440,24 @@ export default function AgentRegistrationWizard() {
 
               <button
                 type="button"
+                disabled={isSubmitting}
                 onClick={handleNext}
-                className="px-6 py-2.5 bg-[#008751] hover:bg-[#00563A] text-white rounded-lg font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm transition-all"
+                className="px-6 py-2.5 bg-[#008751] hover:bg-[#00563A] text-white rounded-lg font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm transition-all disabled:opacity-75 disabled:cursor-not-allowed active:scale-[0.98]"
               >
-                <span>{step === 3 ? "Submit for Verification" : "Continue"}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>Submitting...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{step === 3 ? "Submit for Verification" : "Continue"}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </>
+                )}
               </button>
             </div>
           </div>

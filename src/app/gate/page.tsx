@@ -3,7 +3,8 @@
 import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BrandLogo } from "@/components/common/BrandLogo";
-import { Lock, ArrowRight, ShieldCheck } from "lucide-react";
+import { Lock, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 function GateContent() {
   const router = useRouter();
@@ -11,17 +12,26 @@ function GateContent() {
   const redirectPath = searchParams.get("redirect") || "/";
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Set cookie valid for 7 days
-    document.cookie = `proto_pass=${encodeURIComponent(password)}; path=/; max-age=604800; SameSite=Lax`;
-    router.push(redirectPath);
+    setIsLoading(true);
+    setTimeout(() => {
+      // Set cookie valid for 7 days
+      document.cookie = `proto_pass=${encodeURIComponent(password)}; path=/; max-age=604800; SameSite=Lax`;
+      router.push(redirectPath);
+    }, 500);
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#151314] text-white">
-      <div className="w-full max-w-sm space-y-6 text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 16, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="w-full max-w-sm space-y-6 text-center"
+      >
         <div className="flex justify-center">
           <BrandLogo size="lg" />
         </div>
@@ -63,17 +73,30 @@ function GateContent() {
 
           <button
             type="submit"
-            className="w-full py-2.5 px-4 bg-[#008751] hover:bg-[#00563A] text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all"
+            disabled={isLoading}
+            className="w-full py-2.5 px-4 bg-[#008751] hover:bg-[#00563A] disabled:opacity-75 disabled:cursor-not-allowed text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98]"
           >
-            <span>Enter Prototype</span>
-            <ArrowRight className="w-4 h-4" />
+            {isLoading ? (
+              <>
+                <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <span>Verifying Access...</span>
+              </>
+            ) : (
+              <>
+                <span>Enter Prototype</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
           </button>
         </form>
 
         <p className="text-[10px] text-stone-500">
           The Edge Studio • RC 7351342 • All rights reserved
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -85,4 +108,3 @@ export default function GatePage() {
     </Suspense>
   );
 }
-
