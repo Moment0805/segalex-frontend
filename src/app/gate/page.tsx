@@ -9,19 +9,44 @@ import { motion } from "framer-motion";
 function GateContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectPath = searchParams.get("redirect") || "/";
+  const requestedRedirect = searchParams.get("redirect") || "/";
+  // Only allow relative paths on this site; don't redirect to another host.
+  const redirectPath = requestedRedirect.startsWith("/") && !requestedRedirect.startsWith("//")
+    ? requestedRedirect
+    : "/";
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isLoading) return;
+
+    setError("");
     setIsLoading(true);
-    setTimeout(() => {
-      // Set cookie valid for 7 days
-      document.cookie = `proto_pass=${encodeURIComponent(password)}; path=/; max-age=604800; SameSite=Lax`;
-      router.push(redirectPath);
-    }, 500);
+    try {
+      const response = await fetch("/api/prototype-access", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        const result = await response.json().catch(() => null);
+        setError(result?.error || "Unable to verify access. Please try again.");
+        return;
+      }
+
+      // The API response sets the cookie before navigation, avoiding the race
+      // caused by setting document.cookie and immediately pushing a route.
+      router.replace(redirectPath);
+      router.refresh();
+    } catch {
+      setError("Could not connect to verify access. Check your connection and try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,23 +75,26 @@ function GateContent() {
 
         <form onSubmit={handleSubmit} className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
           <div className="space-y-1 text-left">
-            <label className="text-[10px] uppercase font-bold text-stone-300">
+            <label htmlFor="access-password" className="text-[10px] uppercase font-bold text-stone-300">
               Enter Access Key
             </label>
             <div className="relative">
               <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-3 pointer-events-none" />
               <input
+                id="access-password"
                 type="password"
+                autoComplete="current-password"
                 required
                 placeholder="••••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white/10 border border-white/20 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-[#008751]"
+                disabled={isLoading}
+                className="w-full bg-white/10 border border-white/20 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-[#008751] disabled:opacity-60"
               />
             </div>
             {error && (
-              <span className="text-[10px] text-red-400">
-                Invalid key. Please check with The Edge Studio.
+              <span role="alert" className="text-[10px] text-red-400">
+                {error}
               </span>
             )}
           </div>
@@ -74,7 +102,7 @@ function GateContent() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-2.5 px-4 bg-[#008751] hover:bg-[#00563A] disabled:opacity-75 disabled:cursor-not-allowed text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98]"
+            className="w-full py-2.5 px-4 bg-[#008751] hover:bg-[#00563A] disabled:opacity-75 disabled:cursor-not-allowed text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
           >
             {isLoading ? (
               <>
