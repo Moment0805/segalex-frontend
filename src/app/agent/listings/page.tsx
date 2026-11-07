@@ -37,14 +37,14 @@ export default function AgentListingsManagerPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#FAFAF7] text-stone-900">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FAFAF7] text-stone-900">
       <AgentSidebar />
 
-      <main className="flex-1 p-6 sm:p-10 overflow-y-auto space-y-6 max-w-7xl">
+      <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-10 overflow-x-hidden space-y-6 max-w-7xl">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-ink font-display uppercase tracking-tight">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-ink font-display uppercase tracking-tight">
               Listings Inventory Manager
             </h1>
             <p className="text-xs text-stone-500 mt-0.5">
@@ -83,7 +83,7 @@ export default function AgentListingsManagerPage() {
         {/* Listings Table / Cards */}
         <div className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
           <div className="overflow-x-auto text-xs">
-            <table className="w-full text-left">
+            <table className="w-full min-w-[700px] text-left">
               <thead>
                 <tr className="border-b border-stone-200 bg-[#FAFAF7] text-[10px] font-black uppercase tracking-wider text-stone-500">
                   <th className="p-4">Property</th>

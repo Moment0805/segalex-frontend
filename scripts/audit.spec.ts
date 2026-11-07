@@ -25,6 +25,17 @@ test.beforeAll(async () => {
   }
 });
 
+test.beforeEach(async ({ context }) => {
+  await context.addCookies([
+    {
+      name: "proto_pass",
+      value: "segalex2026",
+      domain: "localhost",
+      path: "/",
+    },
+  ]);
+});
+
 for (const route of ROUTES) {
   test(`Audit visual & layout on ${route.slug} (${route.path})`, async ({ page }, testInfo) => {
     const consoleErrors: string[] = [];

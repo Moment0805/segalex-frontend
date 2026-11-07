@@ -3,7 +3,7 @@ import Link from "next/link";
 
 interface BrandLogoProps {
   className?: string;
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   alt?: string;
   variant?: "white" | "dark" | "default";
 }
@@ -14,6 +14,7 @@ export function BrandLogo({
   alt = "Segalex Resources Global Limited - Verified Property Hub",
 }: BrandLogoProps) {
   const sizeMap = {
+    xs: "w-7 h-7",        // 28px
     sm: "w-9 h-9",        // 36px
     md: "w-12 h-12",      // 48px (standard header circle)
     lg: "w-14 h-14",      // 56px

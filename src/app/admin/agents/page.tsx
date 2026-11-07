@@ -49,14 +49,14 @@ export default function AdminAgentsQueuePage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#FAFAF7] text-stone-900">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FAFAF7] text-stone-900">
       <AdminSidebar />
 
-      <main className="flex-1 p-6 sm:p-10 overflow-y-auto space-y-6 max-w-7xl">
+      <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-10 overflow-x-hidden space-y-6 max-w-7xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-ink font-display uppercase tracking-tight">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-ink font-display uppercase tracking-tight">
               Agent Accreditation & Verification Queue
             </h1>
             <p className="text-xs text-stone-500 mt-0.5">
@@ -67,7 +67,7 @@ export default function AdminAgentsQueuePage() {
 
         {/* Filter & Search Bar */}
         <div className="bg-white rounded-xl p-3 border border-stone-200 shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-1.5 overflow-x-auto">
+          <div className="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 sm:pb-0">
             {(["all", "pending", "verified", "suspended", "rejected"] as const).map((status) => (
               <button
                 key={status}
@@ -83,7 +83,7 @@ export default function AdminAgentsQueuePage() {
             ))}
           </div>
 
-          <div className="relative min-w-[220px]">
+          <div className="relative w-full sm:w-auto min-w-[220px]">
             <input
               type="text"
               placeholder="Filter by name or LASRERA code..."
@@ -98,7 +98,7 @@ export default function AdminAgentsQueuePage() {
         {/* Agents Table */}
         <div className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
           <div className="overflow-x-auto text-xs">
-            <table className="w-full text-left">
+            <table className="w-full min-w-[640px] text-left">
               <thead>
                 <tr className="border-b border-stone-200 bg-[#FAFAF7] text-[10px] font-black uppercase text-stone-500">
                   <th className="p-4">Practitioner / Firm</th>

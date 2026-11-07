@@ -33,12 +33,12 @@ export default function AdminSearchReportPage() {
   ];
 
   return (
-    <div className="min-h-screen flex bg-[#FAFAF7] text-stone-900">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FAFAF7] text-stone-900">
       <AdminSidebar />
 
-      <main className="flex-1 p-6 sm:p-10 overflow-y-auto space-y-8 max-w-7xl">
+      <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-10 overflow-x-hidden space-y-6 sm:space-y-8 max-w-7xl">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-ink font-display uppercase tracking-tight">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-ink font-display uppercase tracking-tight">
             Lagos Search Intelligence & Buyer Demand Analytics
           </h1>
           <p className="text-xs text-stone-500 mt-0.5">
@@ -57,7 +57,7 @@ export default function AdminSearchReportPage() {
           </div>
 
           <div className="overflow-x-auto text-xs">
-            <table className="w-full text-left">
+            <table className="w-full min-w-[550px] text-left">
               <thead>
                 <tr className="border-b border-stone-200 bg-stone-50 text-[10px] font-black uppercase text-stone-500">
                   <th className="p-4">Search Keyword / Filter</th>

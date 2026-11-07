@@ -36,15 +36,15 @@ export default function AdminOverviewPage() {
   }, 0);
 
   return (
-    <div className="min-h-screen flex bg-[#FAFAF7] text-stone-900">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FAFAF7] text-stone-900">
       <AdminSidebar />
 
-      <main className="flex-1 p-6 sm:p-10 overflow-y-auto space-y-8 max-w-7xl">
+      <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-10 overflow-x-hidden space-y-6 sm:space-y-8 max-w-7xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-black text-ink font-display uppercase tracking-tight">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-ink font-display uppercase tracking-tight">
                 Marketplace Compliance & Oversight Desk
               </h1>
               <span className="text-[10px] font-bold uppercase bg-[#FFC800] text-[#151314] px-2 py-0.5 rounded font-mono">
@@ -58,8 +58,8 @@ export default function AdminOverviewPage() {
         </div>
 
         {/* 5 KPI Metric Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-1">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+          <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-stone-200 shadow-sm space-y-1">
             <span className="text-[10px] font-bold uppercase text-stone-400">Verified Agents</span>
             <div className="text-2xl font-black font-display text-stone-900">{verifiedAgents}</div>
             <span className="text-[10px] text-[#008751] font-bold flex items-center gap-1">
@@ -68,25 +68,25 @@ export default function AdminOverviewPage() {
             </span>
           </div>
 
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-1">
+          <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-stone-200 shadow-sm space-y-1">
             <span className="text-[10px] font-bold uppercase text-stone-400">Live Inventory</span>
             <div className="text-2xl font-black font-display text-stone-900">{liveListings}</div>
             <span className="text-[10px] text-stone-500">60-day rule enforced</span>
           </div>
 
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-1">
+          <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-stone-200 shadow-sm space-y-1">
             <span className="text-[10px] font-bold uppercase text-stone-400">Documents Checked</span>
             <div className="text-2xl font-black font-sans text-[#008751]">{docCheckedListings}</div>
             <span className="text-[10px] text-stone-500">Cadastral verified</span>
           </div>
 
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-1">
+          <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-stone-200 shadow-sm space-y-1">
             <span className="text-[10px] font-bold uppercase text-stone-400">Total Leads Handled</span>
             <div className="text-2xl font-black font-display text-stone-900">{enquiries.length}</div>
             <span className="text-[10px] text-[#008751] font-bold">WhatsApp + Form</span>
           </div>
 
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-1">
+          <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-stone-200 shadow-sm space-y-1 col-span-2 sm:col-span-1">
             <span className="text-[10px] font-bold uppercase text-stone-400">Est. Subscription Run-Rate</span>
             <div className="text-2xl font-black font-sans text-[#008751]">
               {formatNaira(mockRevenue)}

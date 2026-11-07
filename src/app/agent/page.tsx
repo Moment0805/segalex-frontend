@@ -63,15 +63,15 @@ export default function AgentDashboardPage() {
   const quotaPercent = Math.min(100, Math.round((activeCount / tierConfig.listingLimit) * 100));
 
   return (
-    <div className="min-h-screen flex bg-[#FAFAF7] text-stone-900">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FAFAF7] text-stone-900">
       <AgentSidebar />
 
-      <main className="flex-1 p-6 sm:p-10 overflow-y-auto space-y-8 max-w-7xl">
+      <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-10 overflow-x-hidden space-y-6 sm:space-y-8 max-w-7xl">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-black text-ink font-display uppercase tracking-tight">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-ink font-display uppercase tracking-tight">
                 Welcome, {agent.name.split(" ")[0]}
               </h1>
               <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-[#008751] px-2 py-0.5 rounded border border-emerald-200">

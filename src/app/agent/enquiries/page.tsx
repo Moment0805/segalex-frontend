@@ -34,14 +34,14 @@ export default function AgentEnquiriesPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#FAFAF7] text-stone-900">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FAFAF7] text-stone-900">
       <AgentSidebar />
 
-      <main className="flex-1 p-6 sm:p-10 overflow-y-auto space-y-6 max-w-7xl">
+      <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-10 overflow-x-hidden space-y-6 max-w-7xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-ink font-display uppercase tracking-tight">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-ink font-display uppercase tracking-tight">
               Leads & Inquiries Inbox
             </h1>
             <p className="text-xs text-stone-500 mt-0.5">
