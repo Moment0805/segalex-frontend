@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { BrandLogo } from "@/components/common/BrandLogo";
 import { Lock, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 function GateContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const requestedRedirect = searchParams.get("redirect") || "/";
   // Only allow relative paths on this site; don't redirect to another host.
@@ -35,16 +34,16 @@ function GateContent() {
       if (!response.ok) {
         const result = await response.json().catch(() => null);
         setError(result?.error || "Unable to verify access. Please try again.");
+        setIsLoading(false);
         return;
       }
 
-      // The API response sets the cookie before navigation, avoiding the race
-      // caused by setting document.cookie and immediately pushing a route.
-      router.replace(redirectPath);
-      router.refresh();
+      // Do a full navigation after the Set-Cookie response completes. This
+      // avoids Next.js client-router cache/prefetch returning a stale gate page
+      // on the first attempt, and makes the browser send the new cookie anew.
+      window.location.replace(redirectPath);
     } catch {
       setError("Could not connect to verify access. Check your connection and try again.");
-    } finally {
       setIsLoading(false);
     }
   };
