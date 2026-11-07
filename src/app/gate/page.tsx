@@ -3,7 +3,7 @@
 import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { BrandLogo } from "@/components/common/BrandLogo";
-import { Lock, ArrowRight } from "lucide-react";
+import { Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 
 function GateContent() {
@@ -14,6 +14,7 @@ function GateContent() {
     ? requestedRedirect
     : "/";
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -81,15 +82,25 @@ function GateContent() {
               <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-3 pointer-events-none" />
               <input
                 id="access-password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 required
                 placeholder="••••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
-                className="w-full bg-white/10 border border-white/20 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-[#008751] disabled:opacity-60"
+                className="w-full bg-white/10 border border-white/20 rounded-xl pl-9 pr-10 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-[#008751] disabled:opacity-60"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword((visible) => !visible)}
+                disabled={isLoading}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-pressed={showPassword}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-stone-400 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#008751] disabled:opacity-50"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" aria-hidden="true" /> : <Eye className="w-4 h-4" aria-hidden="true" />}
+              </button>
             </div>
             {error && (
               <span role="alert" className="text-[10px] text-red-400">
